@@ -1,4 +1,8 @@
+import 'package:flowerappallbyme/checkout.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'Cart.dart';
 
 const BTNgreen = Color.fromARGB(255, 73, 179, 105);
 const BTNpink = Color.fromARGB(255, 241, 39, 100);
@@ -63,21 +67,28 @@ class MyTextButton extends StatelessWidget {
 }
 
 class ItemsAndPrice extends StatelessWidget {
-  String numberOfItems;
-  String priceOfItems;
+  // dynamic numberOfItems;
+  // String priceOfItems;
 
-  ItemsAndPrice({
-      required this.numberOfItems,
-      required this.priceOfItems
-      });
+  // ItemsAndPrice({
+  //     required this.numberOfItems,
+  //     required this.priceOfItems
+  //     });
 
   @override
   Widget build(BuildContext context) {
+    final carrrt = Provider.of<Cart>(context);
+
     return Row(
       children: [
         Stack(
           children: [
-            IconButton(onPressed: () {}, icon: Icon(Icons.shopping_cart)),
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => Checkout()));
+                },
+                icon: Icon(Icons.shopping_cart)),
             Positioned(
               top: 0,
               left: 0,
@@ -85,14 +96,14 @@ class ItemsAndPrice extends StatelessWidget {
                 padding: EdgeInsets.all(4),
                 decoration:
                     BoxDecoration(shape: BoxShape.circle, color: Colors.amber),
-                child: Text(numberOfItems),
+                child: Text('${carrrt.selectedItems.length}'),
               ),
             )
           ],
         ),
         Padding(
           padding: const EdgeInsets.only(right: 12.0),
-          child: Text("\$ ${priceOfItems}"),
+          child: Text("\$ ${carrrt.totalPrice}"),
         )
       ],
     );
